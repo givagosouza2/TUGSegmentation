@@ -239,7 +239,7 @@ with tabs[2]:
         st.info("Aceite o consentimento na Aba 1.")
         st.stop()
 
-    ss.video_url = "https://1drv.ms/v/c/58f7c307dd0b40d5/IQDnexKus9XzRbK2GjB0JjRyAdDfVp8_sYasFFrho2NLRmw?e=x5tU9X"
+    ss.video_url = "https://youtu.be/JiW_Q_KkX0M"
     uploaded_video = []
     if ss.video_url and ss.video_url.strip():
         st.video(ss.video_url)
