@@ -41,7 +41,7 @@ DIFF_EVENT_OPTIONS = ["Nenhum"] + [label for _, label in EVENTS]
 FS_TARGET = 100.0     # Hz
 FC = 1.5              # Hz (lowpass)
 FILTER_ORDER = 4
-ACCEPT_TOL_SEC = 0.20 # tolerância treino (200 ms)
+ACCEPT_TOL_SEC = 0.15 # tolerância treino (100 ms)
 
 
 # =========================
