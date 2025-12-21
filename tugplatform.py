@@ -351,7 +351,7 @@ with tabs[4]:
     'Pct 01_GYR.txt',
     'Pct 02_GYR.txt',
     'Pct 03_GYR.txt',
-    'Pct 04_GYR.txt''
+    'Pct 04_GYR.txt'
 ]
 
     if files:
