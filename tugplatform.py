@@ -276,7 +276,7 @@ with tabs[3]:
     t = _ensure_time_seconds(df, time_col)
     t_u, norm_f = preprocess_gyro_norm(t, df[x_col].values, df[y_col].values, df[z_col].values)
 
-    st.subheader("Treino (norma processada)")
+    #st.subheader("Treino (norma processada)")
     #st.caption("Pré-processamento: detrend + interpolação 100 Hz + lowpass 1.5 Hz; depois norma.")
 
     # marcação por sliders (treino simples)
