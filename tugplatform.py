@@ -257,7 +257,7 @@ with tabs[3]:
         st.info("Você precisa aceitar o consentimento e preencher a autoavaliação.")
         st.stop()
 
-    train_file = "Pct 01_GYR.txt"
+    train_file = "Pct 21_GYR.txt"
     #st.file_uploader("Arquivo de treino (txt/csv com ';')", type=["txt", "csv"], accept_multiple_files=False)
     if train_file is None:
         st.warning("Envie o arquivo de treino para continuar.")
