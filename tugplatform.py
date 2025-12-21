@@ -341,18 +341,15 @@ with tabs[4]:
 
     # -------- Upload registros
     st.subheader("1) Enviar registros")
-    files = st.file_uploader(
-        "Selecione os arquivos do estudo (txt/csv com ';')",
-        type=["txt", "csv"],
-        accept_multiple_files=True
-    )
+    # REMOVIDO: st.file_uploader(...)
+    # Agora usa arquivos locais no diretório principal (onde está o app)
 
     files = [
-    'Pct 01_GYR.txt',
-    'Pct 02_GYR.txt',
-    'Pct 03_GYR.txt',
-    'Pct 04_GYR.txt'
-]
+        'Pct 01_GYR.txt',
+        'Pct 02_GYR.txt',
+        'Pct 03_GYR.txt',
+        'Pct 04_GYR.txt'
+    ]
 
     if files:
         current_names = files
@@ -374,13 +371,13 @@ with tabs[4]:
                     if df.shape[1] >= 4:
                         x_col, y_col, z_col = df.columns[-3], df.columns[-2], df.columns[-1]
                     else:
-                        st.error(f"{f.name}: não consegui inferir colunas X/Y/Z.")
+                        st.error(f"{f}: não consegui inferir colunas X/Y/Z.")
                         st.stop()
 
                 t = _ensure_time_seconds(df, time_col)
                 t_u, norm_f = preprocess_gyro_norm(t, df[x_col].values, df[y_col].values, df[z_col].values)
 
-                ss.uploaded_records.append({"name": f.name, "t_u": t_u, "norm_f": norm_f})
+                ss.uploaded_records.append({"name": f, "t_u": t_u, "norm_f": norm_f})
 
     if not ss.uploaded_records:
         st.info("Envie os arquivos para começar.")
@@ -476,7 +473,7 @@ with tabs[4]:
         event_times = ss.temp_event_times
 
     # -------- Ajuste fino por sliders (sempre disponível)
-    st.markdown("### Ajuste fino (sliders)")
+    st.markdown("### Ajuste fino por sliders (sempre disponível)")
     cols = st.columns(2)
     for idx_ev, (k, label) in enumerate(EVENTS):
         with cols[idx_ev % 2]:
