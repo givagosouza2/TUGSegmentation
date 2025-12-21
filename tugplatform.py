@@ -506,7 +506,7 @@ with tabs[4]:
             
     # checagem de ordem
     times_list = [event_times[k] for k, _ in EVENTS]
-    if any(np.diff(times_list) < 0):
+    #if any(np.diff(times_list) < 0):
         #st.warning("⚠️ Alguns eventos ficaram fora de ordem temporal (um evento está antes do anterior).")
 
     # gráfico final com eventos
