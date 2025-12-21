@@ -240,7 +240,7 @@ with tabs[2]:
         st.stop()
 
     ss.video_url = "https://1drv.ms/v/c/58f7c307dd0b40d5/IQDnexKus9XzRbK2GjB0JjRyAdDfVp8_sYasFFrho2NLRmw?e=x5tU9X"
-    uploaded_video = st.file_uploader("Ou envie um vídeo (mp4/mov/m4v)", type=["mp4", "mov", "m4v"])
+    uploaded_video = ss.video_url
 
     if uploaded_video is not None:
         st.video(uploaded_video)
