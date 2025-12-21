@@ -109,7 +109,7 @@ def make_plotly_fig(t: np.ndarray, norm: np.ndarray, event_times: Dict[str, floa
         if v is None:
             continue
         fig.add_vline(x=float(v), line_dash="dash",  line_width=1,line_color="gray")
-        fig.add_annotation(x=float(v)+0.01, y=y_max, text=label, showarrow=False, textangle=-90, yanchor="top", font=dict(
+        fig.add_annotation(x=float(v)+0.05, y=y_max, text=label, showarrow=False, textangle=-90, yanchor="top", font=dict(
         color="red",
         size=12))
 
