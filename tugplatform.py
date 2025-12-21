@@ -160,7 +160,7 @@ EXPERT_TRAINING_EVENTS: Dict[str, float] = {
     "t4_turnchair_start": 13.38,
     "t5_turnchair_peak": 14.52,
     "t6_turnchair_end": 15.29,
-    "t7_end", "Final da atividade": 16.67
+    "t7_end": 16.67
 }
 
 
