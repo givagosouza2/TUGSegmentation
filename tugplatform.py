@@ -155,14 +155,14 @@ def can_proceed_main() -> bool:
 # =========================
 EXPERT_TRAINING_EVENTS: Dict[str, float] = {
     # Exemplo:
-    "t0_start": 4.85,
-    "t1_turn3m_start": 8.95,
-    "t2_turn3m_peak": 10.37,
-    "t3_turn3m_end": 11.04,
-    "t4_turnchair_start": 13.38,
-    "t5_turnchair_peak": 14.52,
-    "t6_turnchair_end": 15.29,
-    "t7_end": 16.67
+    "t0_start": 3.07,
+    "t1_turn3m_start": 6.34,
+    "t2_turn3m_peak": 7.48,
+    "t3_turn3m_end": 8.13,
+    "t4_turnchair_start": 9.85,
+    "t5_turnchair_peak": 10.77,
+    "t6_turnchair_end": 11.42,
+    "t7_end": 12.34
 }
 
 
