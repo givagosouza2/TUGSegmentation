@@ -347,6 +347,13 @@ with tabs[4]:
         accept_multiple_files=True
     )
 
+    files = [
+    'Pct 01_GYR.txt',
+    'Pct 02_GYR.txt',
+    'Pct 03_GYR.txt',
+    'Pct 04_GYR.txt''
+]
+
     if files:
         current_names = [f.name for f in files]
         cached_names = [r["name"] for r in ss.uploaded_records] if ss.uploaded_records else []
