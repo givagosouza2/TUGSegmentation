@@ -477,7 +477,7 @@ with tabs[4]:
     cols = st.columns(3)
     for idx_ev, (k, label) in enumerate(EVENTS):
         if idx_ev == 1 or idx_ev == 2 or idx_ev == 3:
-            with cols[1]:            
+            with cols[0]:            
                 event_times[k] = st.slider(
                     label,
                     tmin, tmax,
@@ -486,7 +486,7 @@ with tabs[4]:
                     key=f"slider_{rec['name']}_{k}"
                 )
         elif idx_ev == 4 or idx_ev == 5 or idx_ev == 6:
-            with cols[2]:            
+            with cols[1]:            
                 event_times[k] = st.slider(
                     label,
                     tmin, tmax,
@@ -495,7 +495,7 @@ with tabs[4]:
                     key=f"slider_{rec['name']}_{k}"
                 )
         else:
-            with cols[3]:            
+            with cols[2]:            
                 event_times[k] = st.slider(
                     label,
                     tmin, tmax,
