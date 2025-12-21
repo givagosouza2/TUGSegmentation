@@ -474,7 +474,7 @@ with tabs[4]:
 
     # -------- Ajuste fino por sliders (sempre disponível)
     st.markdown("### Ajuste fino por sliders (sempre disponível)")
-    cols = st.columns(2)
+    cols = st.columns(3)
     for idx_ev, (k, label) in enumerate(EVENTS):
         with cols[idx_ev % 2]:
             event_times[k] = st.slider(
