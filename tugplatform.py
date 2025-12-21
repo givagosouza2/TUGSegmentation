@@ -100,7 +100,7 @@ def preprocess_gyro_norm(
 # =========================
 def make_plotly_fig(t: np.ndarray, norm: np.ndarray, event_times: Dict[str, float], title: str = "") -> go.Figure:
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=t, y=norm, mode="lines", name="||ω||"))
+    fig.add_trace(go.Scatter(x=t, y=norm, line_color = "black", mode="lines", name="||ω||"))
 
     # Eventos (linhas verticais)
     y_max = float(np.nanmax(norm)) if len(norm) else 1.0
