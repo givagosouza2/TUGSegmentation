@@ -355,7 +355,7 @@ with tabs[4]:
 ]
 
     if files:
-        current_names = [f.name for f in files]
+        current_names = files
         cached_names = [r["name"] for r in ss.uploaded_records] if ss.uploaded_records else []
 
         if current_names != cached_names:
