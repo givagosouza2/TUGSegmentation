@@ -240,12 +240,13 @@ with tabs[2]:
         st.stop()
 
     ss.video_url = "https://1drv.ms/v/c/58f7c307dd0b40d5/IQDnexKus9XzRbK2GjB0JjRyAdDfVp8_sYasFFrho2NLRmw?e=x5tU9X"
-    uploaded_video = ss.video_url
-
+    uploaded_video = []
     if uploaded_video is not None:
         st.video(uploaded_video)
-    elif ss.video_url.strip():
+    elif ss.video_url and ss.video_url.strip():
         st.video(ss.video_url)
+    else:
+        st.info("Nenhum vídeo disponível.")
 
     st.info("Assista quando quiser. Você pode voltar aqui a qualquer momento.")
 
