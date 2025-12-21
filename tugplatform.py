@@ -273,9 +273,21 @@ with tabs[3]:
 
     # marcação por sliders (treino simples)
     tmin, tmax = float(t_u[0]), float(t_u[-1])
+    # Cria 3 colunas
+    cols = st.columns(3)
+    
     user_events = {}
-    for key, label in EVENTS:
-        user_events[key] = st.slider(label, tmin, tmax, tmin, 0.01, key=f"train_{key}")
+    
+    for i, (key, label) in enumerate(EVENTS):
+        with cols[i % 3]:
+            user_events[key] = st.slider(
+                label,
+                min_value=tmin,
+                max_value=tmax,
+                value=tmin,
+                step=0.01,
+                key=f"train_{key}",
+            )
 
     fig = make_plotly_fig(t_u, norm_f, user_events, title="Treino")
     st.plotly_chart(fig, use_container_width=True)
