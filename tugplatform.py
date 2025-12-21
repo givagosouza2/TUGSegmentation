@@ -297,7 +297,7 @@ with tabs[3]:
                 key=f"train_{key}",
             )
 
-    fig = make_plotly_fig(t_u, norm_f, user_events, title="Treino")
+    fig = make_plotly_fig(t_u, norm_f, user_events)
     st.plotly_chart(fig, use_container_width=True)
 
     st.divider()
