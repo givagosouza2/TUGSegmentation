@@ -476,7 +476,7 @@ with tabs[4]:
     st.markdown("### Ajuste fino por sliders (sempre disponível)")
     cols = st.columns(3)
     for idx_ev, (k, label) in enumerate(EVENTS):
-        if idx_ev == 1 or idx_ev == 2 or idx_ev == 3:
+        if idx_ev == 0 or idx_ev == 1 or idx_ev == 2:
             with cols[0]:            
                 event_times[k] = st.slider(
                     label,
@@ -485,7 +485,7 @@ with tabs[4]:
                     0.01,
                     key=f"slider_{rec['name']}_{k}"
                 )
-        elif idx_ev == 4 or idx_ev == 5 or idx_ev == 6:
+        elif idx_ev == 3 or idx_ev == 4 or idx_ev == 5:
             with cols[1]:            
                 event_times[k] = st.slider(
                     label,
