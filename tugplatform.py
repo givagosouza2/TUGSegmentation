@@ -25,7 +25,7 @@ st.set_page_config(page_title="TUG Gyro Segmentation", page_icon="🌀", layout=
 
 BASE_DIR = Path(__file__).resolve().parent
 
-files = [
+FILES_BASE = [
         'Pct 01_GYR.txt',
         'Pct 02_GYR.txt',
         'Pct 03_GYR.txt',
