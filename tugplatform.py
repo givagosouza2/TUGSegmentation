@@ -409,7 +409,7 @@ with tabs[4]:
         'Pct 91_GYR.txt',
         'Pct 126_GYR.txt',
         'Pct 164_GYR.txt',
-        'Pct 71_GYR.txt',
+        'pct 71_GYR.txt',
         'Pct 77_GYR.txt',
         'Pct 79_GYR.txt',
         'Pct 96_GYR.txt',
