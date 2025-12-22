@@ -1,6 +1,7 @@
 import io
 import json
 import time
+from pathlib import Path
 from typing import Dict, List, Tuple, Optional
 
 import numpy as np
@@ -42,6 +43,9 @@ FS_TARGET = 100.0     # Hz
 FC = 1.5              # Hz (lowpass)
 FILTER_ORDER = 4
 ACCEPT_TOL_SEC = 0.15 # tolerância treino (100 ms)
+
+# Diretório principal (onde está este arquivo .py)
+BASE_DIR = Path(__file__).resolve().parent
 
 
 # =========================
@@ -100,7 +104,7 @@ def preprocess_gyro_norm(
 # =========================
 def make_plotly_fig(t: np.ndarray, norm: np.ndarray, event_times: Dict[str, float], title: str = "") -> go.Figure:
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=t, y=norm, line_color = "black", mode="lines", name="||ω||"))
+    fig.add_trace(go.Scatter(x=t, y=norm, line_color="black", mode="lines", name="||ω||"))
 
     # Eventos (linhas verticais)
     y_max = float(np.nanmax(norm)) if len(norm) else 1.0
@@ -108,10 +112,16 @@ def make_plotly_fig(t: np.ndarray, norm: np.ndarray, event_times: Dict[str, floa
         v = event_times.get(key, None)
         if v is None:
             continue
-        fig.add_vline(x=float(v), line_dash="dash",  line_width=1,line_color="gray")
-        fig.add_annotation(x=float(v)+0.1, y=y_max, text=label, showarrow=False, textangle=-90, yanchor="top", font=dict(
-        color="red",
-        size=12))
+        fig.add_vline(x=float(v), line_dash="dash", line_width=1, line_color="gray")
+        fig.add_annotation(
+            x=float(v) + 0.1,
+            y=y_max,
+            text=label,
+            showarrow=False,
+            textangle=-90,
+            yanchor="top",
+            font=dict(color="red", size=12),
+        )
 
     fig.update_layout(
         title=title,
@@ -154,7 +164,6 @@ def can_proceed_main() -> bool:
 # Gabarito treino (preencher depois)
 # =========================
 EXPERT_TRAINING_EVENTS: Dict[str, float] = {
-    # Exemplo:
     "t0_start": 3.07,
     "t1_turn3m_start": 6.34,
     "t2_turn3m_peak": 7.48,
@@ -240,7 +249,6 @@ with tabs[2]:
         st.stop()
 
     ss.video_url = "https://youtu.be/JiW_Q_KkX0M"
-    uploaded_video = []
     if ss.video_url and ss.video_url.strip():
         st.video(ss.video_url)
     else:
@@ -258,12 +266,16 @@ with tabs[3]:
         st.stop()
 
     train_file = "Pct 21_GYR.txt"
-    #st.file_uploader("Arquivo de treino (txt/csv com ';')", type=["txt", "csv"], accept_multiple_files=False)
     if train_file is None:
         st.warning("Envie o arquivo de treino para continuar.")
         st.stop()
 
-    df = _read_semicolon_txt(train_file)
+    train_path = BASE_DIR / train_file
+    if not train_path.exists():
+        st.error(f"Arquivo de treino não encontrado no diretório principal: {train_path}")
+        st.stop()
+
+    df = _read_semicolon_txt(train_path)
     time_col = "DURACAO" if "DURACAO" in df.columns else df.columns[0]
 
     # padrão esperado
@@ -275,16 +287,12 @@ with tabs[3]:
     t = _ensure_time_seconds(df, time_col)
     t_u, norm_f = preprocess_gyro_norm(t, df[x_col].values, df[y_col].values, df[z_col].values)
 
-    #st.subheader("Treino (norma processada)")
-    #st.caption("Pré-processamento: detrend + interpolação 100 Hz + lowpass 1.5 Hz; depois norma.")
-
     # marcação por sliders (treino simples)
     tmin, tmax = float(t_u[0]), float(t_u[-1])
+
     # Cria 3 colunas
     cols = st.columns(3)
-    
     user_events = {}
-    
     for i, (key, label) in enumerate(EVENTS):
         with cols[i % 3]:
             user_events[key] = st.slider(
@@ -339,10 +347,8 @@ with tabs[4]:
         st.info("Você precisa aceitar o consentimento e preencher a autoavaliação.")
         st.stop()
 
-    # -------- Upload registros
-    st.subheader("1) Enviar registros")
-    # REMOVIDO: st.file_uploader(...)
-    # Agora usa arquivos locais no diretório principal (onde está o app)
+    # -------- Arquivos locais no diretório principal (sem upload)
+    st.subheader("1) Registros do estudo (arquivos locais)")
 
     files = [
         'Pct 01_GYR.txt',
@@ -438,7 +444,12 @@ with tabs[4]:
             ss.cursor_time = None
 
             for f in files:
-                df = _read_semicolon_txt(f)
+                path = BASE_DIR / f
+                if not path.exists():
+                    st.error(f"Arquivo não encontrado no diretório principal: {path}")
+                    st.stop()
+
+                df = _read_semicolon_txt(path)
                 time_col = "DURACAO" if "DURACAO" in df.columns else df.columns[0]
 
                 # tenta padrão; fallback pega últimas 3 colunas
@@ -534,7 +545,6 @@ with tabs[4]:
         with cC:
             if st.button("📌 Atribuir ao evento", disabled=(ss.cursor_time is None)):
                 event_times[ss.cursor_event_key] = float(ss.cursor_time)
-                # guarda no session state temporariamente
                 ss.setdefault("temp_event_times", {})
                 ss.temp_event_times = event_times
                 st.success("Atribuído.")
@@ -549,41 +559,22 @@ with tabs[4]:
         event_times = ss.temp_event_times
 
     # -------- Ajuste fino por sliders (sempre disponível)
-    st.markdown("### Ajuste fino por sliders (sempre disponível)")
-    cols = st.columns(3)
+    st.markdown("### Ajuste fino (sliders)")
+    cols = st.columns(2)
     for idx_ev, (k, label) in enumerate(EVENTS):
-        if idx_ev == 0 or idx_ev == 1 or idx_ev == 2:
-            with cols[0]:            
-                event_times[k] = st.slider(
-                    label,
-                    tmin, tmax,
-                    float(event_times[k]) if event_times[k] is not None else tmin,
-                    0.01,
-                    key=f"slider_{rec['name']}_{k}"
-                )
-        elif idx_ev == 3 or idx_ev == 4 or idx_ev == 5:
-            with cols[1]:            
-                event_times[k] = st.slider(
-                    label,
-                    tmin, tmax,
-                    float(event_times[k]) if event_times[k] is not None else tmin,
-                    0.01,
-                    key=f"slider_{rec['name']}_{k}"
-                )
-        else:
-            with cols[2]:            
-                event_times[k] = st.slider(
-                    label,
-                    tmin, tmax,
-                    float(event_times[k]) if event_times[k] is not None else tmin,
-                    0.01,
-                    key=f"slider_{rec['name']}_{k}"
-                )
-            
+        with cols[idx_ev % 2]:
+            event_times[k] = st.slider(
+                label,
+                tmin, tmax,
+                float(event_times[k]) if event_times[k] is not None else tmin,
+                0.01,
+                key=f"slider_{rec['name']}_{k}"
+            )
+
     # checagem de ordem
     times_list = [event_times[k] for k, _ in EVENTS]
-    #if any(np.diff(times_list) < 0):
-        #st.warning("⚠️ Alguns eventos ficaram fora de ordem temporal (um evento está antes do anterior).")
+    if any(np.diff(times_list) < 0):
+        st.warning("⚠️ Alguns eventos ficaram fora de ordem temporal (um evento está antes do anterior).")
 
     # gráfico final com eventos
     st.plotly_chart(make_plotly_fig(t_u, norm_f, event_times, title="Sinal processado (norma)"), use_container_width=True)
@@ -638,7 +629,6 @@ with tabs[4]:
         if len(ss.annotations_by_name) == 0:
             st.info("Nenhuma marcação salva ainda.")
         else:
-            # CSV
             rows = []
             for name, a in ss.annotations_by_name.items():
                 row = {
@@ -663,7 +653,6 @@ with tabs[4]:
                 mime="text/csv",
             )
 
-            # JSON
             json_bytes = json.dumps(list(ss.annotations_by_name.values()), ensure_ascii=False, indent=2).encode("utf-8")
             st.download_button(
                 "⬇️ Baixar JSON",
