@@ -660,8 +660,8 @@ with tabs[4]:
 
     # checagem de ordem
     times_list = [event_times[k] for k, _ in EVENTS]
-    if any(np.diff(times_list) < 0):
-        st.warning("⚠️ Alguns eventos ficaram fora de ordem temporal (um evento está antes do anterior).")
+    #if any(np.diff(times_list) < 0):
+    #    st.warning("⚠️ Alguns eventos ficaram fora de ordem temporal (um evento está antes do anterior).")
 
     # gráfico final com eventos
     st.plotly_chart(make_plotly_fig(t_u, norm_f, event_times, title="Sinal processado (norma)"), use_container_width=True)
