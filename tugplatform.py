@@ -628,7 +628,7 @@ with tabs[4]:
 
     # -------- Ajuste fino por sliders
     st.markdown("### Ajuste fino (sliders)")
-    cols = st.columns(2)
+    cols = st.columns(3)
     for idx_ev, (k, label) in enumerate(EVENTS):
         if idx_ev == 0 or idx_ev == 1 or idx_ev == 2:
             with cols[0]:
