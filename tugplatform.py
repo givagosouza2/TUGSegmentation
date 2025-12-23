@@ -630,14 +630,33 @@ with tabs[4]:
     st.markdown("### Ajuste fino (sliders)")
     cols = st.columns(2)
     for idx_ev, (k, label) in enumerate(EVENTS):
-        with cols[idx_ev % 2]:
-            event_times[k] = st.slider(
-                label,
-                tmin, tmax,
-                float(event_times[k]) if event_times[k] is not None else tmin,
-                0.01,
-                key=f"slider_{rec['name']}_{k}"
-            )
+        if idx == 0 or idx == 1 or idx == 2:
+            with cols[0]:
+                event_times[k] = st.slider(
+                    label,
+                    tmin, tmax,
+                    float(event_times[k]) if event_times[k] is not None else tmin,
+                    0.01,
+                    key=f"slider_{rec['name']}_{k}"
+                    )
+        elif idx == 3 or idx == 4 or idx == 5:
+            with cols[1]:
+                event_times[k] = st.slider(
+                    label,
+                    tmin, tmax,
+                    float(event_times[k]) if event_times[k] is not None else tmin,
+                    0.01,
+                    key=f"slider_{rec['name']}_{k}"
+                    )
+        else:
+            with cols[2]:
+                event_times[k] = st.slider(
+                    label,
+                    tmin, tmax,
+                    float(event_times[k]) if event_times[k] is not None else tmin,
+                    0.01,
+                    key=f"slider_{rec['name']}_{k}"
+                    )
 
     # checagem de ordem
     times_list = [event_times[k] for k, _ in EVENTS]
